@@ -27,20 +27,20 @@ if( HAVE_TESTS )
 
   add_test( NAME ectrans_test_install
             COMMAND ${CMAKE_CURRENT_BINARY_DIR}/test-install.sh ${_test_args} )
+
+  # put into HAVE_TESTS
+  if( HAVE_DOUBLE_PRECISION )
+    set( trans trans_dp )
+  else()
+    set( trans trans_sp )
+  endif()
+
+  ecbuild_add_test(TARGET ectrans_test_adjoint
+    SOURCES trans/test_adjoint.F90
+    LIBS ${trans}
+    LINKER_LANGUAGE Fortran
+  )
 endif()
-
-
-if( HAVE_DOUBLE_PRECISION )
-  set( trans trans_dp )
-else()
-  set( trans trans_sp )
-endif()
-
-ecbuild_add_test(TARGET ectrans_test_adjoint
-  SOURCES trans/test_adjoint.F90
-  LIBS ${trans}
-  LINKER_LANGUAGE Fortran
-)
 
 if( HAVE_TRANSI )
 
